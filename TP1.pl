@@ -42,7 +42,11 @@ e%--------------------------------- - - - - - - - - - -  -  -  -  -   -
                                     N == 1).
 
 %Um contrato tem de ter um tipo de procedimento válido
++contrato(_,_,_,PROC,_,_,_,_,_) :: (procValido(PROC)).
 
+procValido('Ajuste direto').
+procValido('Consulta previa').
+procValido('Concurso publico').
 
 %Condições ajuste direto
 
