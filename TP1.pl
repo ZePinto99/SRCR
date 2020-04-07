@@ -1,5 +1,5 @@
-e%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% SIST. REPR. CONHECIMENTO E RACIOCINIO - MiEI/3 - TP1 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% SIST. REPR. CONHECIMENTO E RACIOCINIO - MiEI/3 - TP1
 
 %Grupo 12
 
@@ -24,25 +24,24 @@ e%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 %Invariantes
 
 %Não pode existir mais que um adjudicante para com o mesmo id
-+adjudicante(ID,_,NI,_) :: (solucoes(X,(adjudicante(ID,_,X,_)),L), 
++adjudicante(ID,_,NI,_) :: (solucoes(X,(adjudicante(ID,_,X,_)),L),
                            comprimento(L,N),
                            N == 1).
 
 %Não pode existir mais que um adjudicaria para com o mesmo id
-+adjudicataria(ID,_,NI,_) :: (solucoes(X,(adjudicataria(ID,_,X,_)),L), 
++adjudicataria(ID,_,NI,_) :: (solucoes(X,(adjudicataria(ID,_,X,_)),L),
                              comprimento(L,N),
                              N == 1).
 
 %Um contrato tem de ter dois ids válidos
-+contrato(ADE,ADA,_,_,_,_,_,_,_) :: (solucoes(X,(adjudicataria(ADE,_,X,_)),L), 
++contrato(ADE,ADA,_,_,_,_,_,_,_) :: (solucoes(X,(adjudicataria(ADE,_,X,_)),L),
                                     comprimento(L,N),
                                     N == 1,
-                                    solucoes(X,(adjudicataria(ADA,_,X,_)),S), 
+                                    solucoes(X,(adjudicataria(ADA,_,X,_)),S),
                                     comprimento(S,N),
                                     N == 1).
 
 %Um contrato tem de ter um tipo de procedimento válido
-
 
 %Condições ajuste direto
 
