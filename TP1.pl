@@ -48,9 +48,25 @@ procValido('Ajuste direto').
 procValido('Consulta previa').
 procValido('Concurso publico').
 
-%Condições ajuste direto
+% Condições ajuste direto 
+
+ajusteDireto('Contrato de aquisicao').
+ajusteDireto('Locacao de bens moveis').
+ajusteDireto('Aquisicao de servicos').
+
+valInf(X) :- X =<5000.
+ 
++contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) :: ( solucoes(ajusteDireto(AjDir) , contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) , Valor),
+                                        valInf(Valor)).
+
++contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) :: ( solucoes(ajusteDireto(AjDir) , contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) , Prazo),
+                                       Prazo=<365).
+
 
 %Regra dos três anos
+
+
+
 
 %--------------------------------- - - - - - - - - - -  -
 %Invariantes
