@@ -70,12 +70,12 @@ procValido('Concurso publico').
     nao(excecao(contrato(_,_,_,_,_,_,_,_,_))).
 
 %Não é possível retirar um adjudicante que celebrou um contrato
-- adjudicante(_,_,NIF,_) :- ( solucoes(NIF, contrato(_,fisc,_,_,_,_,_,_,_,_) ,S ),
+- adjudicante(_,_,NIF,_) :- ( solucoes(NIF, contrato(_,_,fisc,_,_,_,_,_,_,_,_) ,S ),
                         comprimento(S,N),
                         N>=1).
 
 %Não é possível retirar um adjudicataria que celebrou um contrato
-- adjudicataria(_,_,NIF,_) :- ( solucoes(NIF, contrato(_,_,fisc,_,_,_,_,_,_,_) ,S ),
+- adjudicataria(_,_,NIF,_) :- ( solucoes(NIF, contrato(_,_,_,fisc,_,_,_,_,_,_,_) ,S ),
                         comprimento(S,N),
                         N>=1).
 
