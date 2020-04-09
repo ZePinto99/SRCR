@@ -48,20 +48,6 @@ procValido('Ajuste direto').
 procValido('Consulta previa').
 procValido('Concurso publico').
 
-% Condições ajuste direto 
-
-ajusteDireto('Contrato de aquisicao').
-ajusteDireto('Locacao de bens moveis').
-ajusteDireto('Aquisicao de servicos').
-
-valInf(X) :- X =<5000.
- 
-+contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) :: ( solucoes(ajusteDireto(AjDir) , contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) , Valor),
-                                        valInf(Valor)).
-
-+contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) :: ( solucoes(ajusteDireto(AjDir) , contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) , Prazo),
-                                       Prazo=<365).
-
 
 %Regra dos três anos
 
@@ -84,9 +70,14 @@ valInf(X) :- X =<5000.
     nao(excecao(contrato(_,_,_,_,_,_,_,_,_))).
 
 %Não é possível retirar um adjudicante que celebrou um contrato
+- adjudicante(_,_,NIF,_) :- ( solucoes(NIF, contrato(_,fisc,_,_,_,_,_,_,_,_) ,S ),
+                        comprimento(S,N),
+                        N>=1).
 
 %Não é possível retirar um adjudicataria que celebrou um contrato
-
+- adjudicataria(_,_,NIF,_) :- ( solucoes(NIF, contrato(_,_,fisc,_,_,_,_,_,_,_) ,S ),
+                        comprimento(S,N),
+                        N>=1).
 
 %-------------------------------------------------
 
