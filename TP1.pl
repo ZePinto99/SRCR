@@ -112,16 +112,16 @@ adjudicataria(10, 'Tasquinha Bracarense', 111111111, 'Gualtar, Braga, Portugal')
 
 %-------------------------------------------------
 
-contrato(1,705330336,702675112,'Aquisição de serviços', 'Consulta Prévia', 'Assessoria jurídica', 13599, 547, 'Alto de Basto', '11-02-2020').
-contrato(2,680013539,222222222,'Aquisição de serviços', 'Concurso Publico', 'Agricultores', 11111, 1, 'Este S.Pedro', '03-09-2001').
-contrato(3,123456789,760400500,'Aquisição de serviços', 'Concurso Publico', 'Requisicao de Seguranca e Cerco', 7753, 54, 'Atras da UM', '17-08-2011').
-contrato(4,412823999,888888888,'Aquisição de serviços', 'Consulta Prévia', 'Emprestimo de Golfinho', 13, 547, 'Avenida da Liberdade', '28-12-2010').
-contrato(5,134772977,111111111,'Aquisição de serviços', 'Concurso Publico', 'Catering', 1000000000, 70000, 'Gualtar', '18-08-2019').
-contrato(6,405210436,969696969,'Aquisição de serviços', 'Consulta Prévia', 'Venda de Azeite', 0.67, 123, 'Azurem', '29-02-2021').
-contrato(7,033199321,987654321,'Aquisição de serviços', 'Concurso Publico', 'Lavagem de dinheiro', 4109, 54, 'Se', '21-08-2017').
-contrato(8,577550677,555555555,'Aquisição de serviços', 'Ajuste Direto', 'Transporte de Droga', 99, 100, 'S. Vicente', '01-01-2000').
-contrato(9,210494994,444444444,'Aquisição de serviços', 'Ajuste Direto', 'Fornecimento de Cassetetes', 1399, 5489, 'Sameiro', '12-06-2011').
-contrato(10,705330336,801696969,'Aquisição de serviços', 'Concurso Publico', 'Prestaçao de servicos gerais', 999, 1547, 'Real', '02-11-2015').
+contrato(1,705330336,702675112,'Aquisicao de servicos', 'Consulta Previa', 'Assessoria juridica', 13599, 547, 'Alto de Basto', '11-02-2020').
+contrato(2,680013539,222222222,'Aquisicao de servicos', 'Concurso Publico', 'Agricultores', 11111, 1, 'Este S.Pedro', '03-09-2001').
+contrato(3,123456789,760400500,'Aquisicao de servicos', 'Concurso Publico', 'Requisicao de Seguranca e Cerco', 7753, 54, 'Atras da UM', '17-08-2011').
+contrato(4,412823999,888888888,'Aquisicao de servicos', 'Consulta Prévia', 'Emprestimo de Golfinho', 13, 547, 'Avenida da Liberdade', '28-12-2010').
+contrato(5,134772977,111111111,'Aquisicao de servicos', 'Concurso Publico', 'Catering', 1000000000, 70000, 'Gualtar', '18-08-2019').
+contrato(6,405210436,969696969,'Aquisicao de servicos', 'Consulta Prévia', 'Venda de Azeite', 0.67, 123, 'Azurem', '29-02-2021').
+contrato(7,033199321,987654321,'Aquisicao de servicos', 'Concurso Publico', 'Lavagem de dinheiro', 4109, 54, 'Se', '21-08-2017').
+contrato(8,577550677,555555555,'Aquisicao de servicos', 'Ajuste Direto', 'Transporte de Droga', 99, 100, 'S. Vicente', '01-01-2000').
+contrato(9,210494994,444444444,'Aquisicao de servicos' 'Ajuste Direto', 'Fornecimento de Cassetetes', 1399, 5489, 'Sameiro', '12-06-2011').
+contrato(10,705330336,801696969,'Aquisicao de servicos', 'Concurso Publico', 'Prestaçao de servicos gerais', 999, 1547, 'Real', '02-11-2015').
 
 %------------------------------------------------
 
@@ -142,23 +142,23 @@ nulo(x007).
 contrato(11,134772977,555555555,'Aquisicao de servicos', 'Consulta Previa', x017, 75000, 365, 'Nossa Senhora da Conceicao', '12-07-2020').
 excecao(contrato(11,134772977,555555555,'Aquisicao de servicos', 'Consulta Previa', E, 75000, 365, 'Nossa Senhora da Conceicao', '12-07-2020')) :- contrato(11,134772977,555555555,'Aquisicao de servicos', 'Consulta Previa', x017, 75000, 365, 'Nossa Senhora da Conceicao', '12-07-2020').
 
-contrato(12,577550677,987654321,'Aquisição de serviços', 'Concurso Público', x121, x251, 365, 'Abambres', '11-02-2020').
+contrato(12,577550677,987654321,'Aquisicao de servicos', 'Concurso Publico', x121, x251, 365, 'Abambres', '11-02-2020').
 excecao(contrato(12,_,_,_,_,E,I,_,_,_)) :- contrato(12,577550677,987654321,'Aquisição de serviços', 'Concurso Público', x121, x251, 365, 'Abambres', '11-02-2020').
 
-excecao(contrato(13,705330336,969696969,'Aquisição de serviços', 'Concurso Publico', 'Requisicao de Seguranca e Cerco', 10000, 450, 'Vila Seca de Poiares', '4-09-2017')).
-excecao(contrato(13,705330336,969696969,'Aquisição de serviços', 'Concurso Publico', 'Requisicao de Seguranca e Cerco', 10000, 450, 'Vila Nova de Gaia', '4-09-2017')).
+excecao(contrato(13,705330336,969696969,'Aquisicao de servicos', 'Concurso Publico', 'Requisicao de Seguranca e Cerco', 10000, 450, 'Vila Seca de Poiares', '4-09-2017')).
+excecao(contrato(13,705330336,969696969,'Aquisicao de servicos', 'Concurso Publico', 'Requisicao de Seguranca e Cerco', 10000, 450, 'Vila Nova de Gaia', '4-09-2017')).
 
-contrato(14,680013539,801696969,'Aquisição de serviços', 'Consulta Prévia', 'Prestaçao de servicos gerais', 5000, 230, 'Gualtar', xpto).
-excecao(contrato(14,A,B,C,D,E,F,G,H,I)) :- contrato(14,A,B,C,D,E,F,G,H,xpto).
+contrato(14,680013539,801696969,'Aquisicao de servicos', 'Consulta Previa', 'Prestacao de servicos gerais', 5000, 230, 'Gualtar', xpto).
+excecao(contrato(14,680013539,801696969,'Aquisicao de servicos', 'Consulta Previa','Prestaçao de servicos gerais', 5000, 230, 'Gualtar', D)) :- contrato(14,680013539,801696969,'Aquisicao de servicos', 'Consulta Previa', 'Prestacao de servicos gerais', 5000, 230, 'Gualtar', xpto).
 
+excecao(contrato(15,033199321,888888888,'Aquisicao de servicos', 'Consulta Previa', 'Transporte de morangos', 500, 10, 'Amarante', '19-10-2010')).
+excecao(contrato(15,210494994,888888888,'Aquisicao de servicos', 'Consulta Previa', 'Transporte de morangos', 500, 10, 'Amarante', '19-10-2010')).
+excecao(contrato(15,033199321,801696969,'Aquisicao de servicos', 'Consulta Previa', 'Transporte de morangos', 500, 10, 'Amarante', '19-10-2010')).
+excecao(contrato(15,210494994,801696969,'Aquisicao de servicos', 'Consulta Previa', 'Transporte de morangos', 500, 10, 'Amarante', '19-10-2010')).
 
-excecao(contrato(15,033199321,888888888,'Aquisição de serviços', 'Consulta Prévia', 'Transporte de morangos', 500, 10, 'Amarante', '19-10-2010')).
-excecao(contrato(15,210494994,888888888,'Aquisição de serviços', 'Consulta Prévia', 'Transporte de morangos', 500, 10, 'Amarante', '19-10-2010')).
-excecao(contrato(15,033199321,801696969,'Aquisição de serviços', 'Consulta Prévia', 'Transporte de morangos', 500, 10, 'Amarante', '19-10-2010')).
-excecao(contrato(15,210494994,801696969,'Aquisição de serviços', 'Consulta Prévia', 'Transporte de morangos', 500, 10, 'Amarante', '19-10-2010')).
-
-excecao(contrato(16,405210436,444444444,'Aquisição de serviços', 'Consulta Prévia', 'Fornecimento de ventiladores', 100000, 2, L, '30-04-2020')). :- 
-    pertence(L, ['Lisboa', 'Braga', 'Porto', 'Madeira']).
+ 
+excecao(contrato(16,405210436,444444444,'Aquisicao de servicos', 'Consulta Previa', 'Fornecimento de ventiladores', 100000, 2, L, '30-04-2020')). :- 
+    																									pertence(L, ['Lisboa', 'Braga', 'Porto', 'Madeira']).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -213,7 +213,6 @@ solucoes( X,Y,Z ) :-
 
 comprimento( S,N ) :-
     length( S,N ).
-
 
 
 pertence( X,[X|L] ).
