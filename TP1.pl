@@ -120,7 +120,7 @@ contrato(5,134772977,111111111,'Aquisicao de servicos', 'Concurso Publico', 'Cat
 contrato(6,405210436,969696969,'Aquisicao de servicos', 'Consulta Prévia', 'Venda de Azeite', 0.67, 123, 'Azurem', '29-02-2021').
 contrato(7,033199321,987654321,'Aquisicao de servicos', 'Concurso Publico', 'Lavagem de dinheiro', 4109, 54, 'Se', '21-08-2017').
 contrato(8,577550677,555555555,'Aquisicao de servicos', 'Ajuste Direto', 'Transporte de Droga', 99, 100, 'S. Vicente', '01-01-2000').
-contrato(9,210494994,444444444,'Aquisicao de servicos' 'Ajuste Direto', 'Fornecimento de Cassetetes', 1399, 5489, 'Sameiro', '12-06-2011').
+contrato(9,210494994,444444444,'Aquisicao de servicos', 'Ajuste Direto', 'Fornecimento de Cassetetes', 1399, 5489, 'Sameiro', '12-06-2011').
 contrato(10,705330336,801696969,'Aquisicao de servicos', 'Concurso Publico', 'Prestaçao de servicos gerais', 999, 1547, 'Real', '02-11-2015').
 
 %------------------------------------------------
@@ -130,6 +130,12 @@ contrato(10,705330336,801696969,'Aquisicao de servicos', 'Concurso Publico', 'Pr
 %nome d0 adjudicante desconhecido
 adjudicante(999,x007,14141414,'Portugal,Vila Real, Tras-os-Montes e Alto Douro').
 excecao(adjudicante(999,N,14141414,'Portugal,Vila Real, Tras-os-Montes e Alto Douro')):- adjudicante(999,x007,14141414,'Portugal,Vila Real, Tras-os-Montes e Alto Douro').
+
+%Não sabemos a terra d0 adjudicante mas sabemos que não é de vila real
+-adjudicante(500,'Padaria Fernandes',907265511,'Vila Real').
+adjudicante(500,'Padaria Fernandes',907265511,xpto123).
+excecao(adjudicante(Id,Nome,Nif,Loc)):-
+    adjudicante(Id,Nome,Nif,xpto123).
 
 %localização da adjudicataria ímpossivel de obter
 adjudicataria(1818189,'RNE - Rede Nacional de Expressos, Lda', 702675112, x007).
@@ -143,7 +149,7 @@ contrato(11,134772977,555555555,'Aquisicao de servicos', 'Consulta Previa', x017
 excecao(contrato(11,134772977,555555555,'Aquisicao de servicos', 'Consulta Previa', E, 75000, 365, 'Nossa Senhora da Conceicao', '12-07-2020')) :- contrato(11,134772977,555555555,'Aquisicao de servicos', 'Consulta Previa', x017, 75000, 365, 'Nossa Senhora da Conceicao', '12-07-2020').
 
 contrato(12,577550677,987654321,'Aquisicao de servicos', 'Concurso Publico', x121, x251, 365, 'Abambres', '11-02-2020').
-excecao(contrato(12,_,_,_,_,E,I,_,_,_)) :- contrato(12,577550677,987654321,'Aquisição de serviços', 'Concurso Público', x121, x251, 365, 'Abambres', '11-02-2020').
+excecao(contrato(12,577550677,987654321,'Aquisicao de servicos','Concurso Publico',E,I,365, 'Abambres', '11-02-2020')) :- contrato(12,577550677,987654321,'Aquisicao de servicos', 'Concurso Publico', x121, x251, 365, 'Abambres', '11-02-2020').
 
 excecao(contrato(13,705330336,969696969,'Aquisicao de servicos', 'Concurso Publico', 'Requisicao de Seguranca e Cerco', 10000, 450, 'Vila Seca de Poiares', '4-09-2017')).
 excecao(contrato(13,705330336,969696969,'Aquisicao de servicos', 'Concurso Publico', 'Requisicao de Seguranca e Cerco', 10000, 450, 'Vila Nova de Gaia', '4-09-2017')).
@@ -157,9 +163,8 @@ excecao(contrato(15,033199321,801696969,'Aquisicao de servicos', 'Consulta Previ
 excecao(contrato(15,210494994,801696969,'Aquisicao de servicos', 'Consulta Previa', 'Transporte de morangos', 500, 10, 'Amarante', '19-10-2010')).
 
  
-excecao(contrato(16,405210436,444444444,'Aquisicao de servicos', 'Consulta Previa', 'Fornecimento de ventiladores', 100000, 2, L, '30-04-2020')). :- 
-    																									pertence(L, ['Lisboa', 'Braga', 'Porto', 'Madeira']).
-
+excecao(contrato(16,405210436,444444444,'Aquisicao de servicos', 'Consulta Previa', 'Fornecimento de ventiladores', 100000, 2, L, '30-04-2020')) :- 
+                                                                                                        pertence(L, ['Lisboa', 'Braga', 'Porto', 'Madeira']).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
