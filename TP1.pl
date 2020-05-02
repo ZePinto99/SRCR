@@ -50,6 +50,11 @@ procValido('Concurso publico').
 
 %Condições ajuste direto
 
+execao( contrato(_,_,CONT,'Ajuste direto',_,V,P,_,_) ) :-
+        P <= 366, V <= 5000, 
+        (CONT='Contrato de aquisição'; CONT='Locação de bens móveis'; CONT='Aquisição de serviços' ).
+
+
 %Regra dos três anos
 
 %--------------------------------- - - - - - - - - - -  -
