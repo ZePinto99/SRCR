@@ -147,13 +147,27 @@ historicoAdjudicanteId(ID,L) :- adjudicante(ID,_,NIF,_), historicoAdjudicante(NI
 historicoAdjudicatariaId(ID,L) :- adjudicataria(ID,_,NIF,_), historicoAdjudicataria(NIF,L).
 
 
+
+%%#########   Não está a dar #########################
+
 %O adjudicante com mais contratos
+topAdjudicante(ID) :- findall(I,adjudicante(I,_,_,_),L), topAjAux(ID,L).
+
+topAjAux(ID,[]).
+topAjAux(ID,[X|T]) :- historicoAdjudicanteId(ID,L1), length(L1,R1), historicoAdjudicanteId(X,L2), length(L2,R2), R1 >= R2.
 
 %A adjudicataria com mais contratos
+topAdjudicataria(ID) :- findall(I,adjudicante(I,_,_,_),L), topAcAux(ID,L).
+
+topAcAux(ID,[]).
+topAcjAux(ID,[X|T]) :- historicoAdjudicatariaId(ID,L1), length(L1,R1), historicoAdjudicatariaId(X,L2), length(L2,R2), R1 >= R2.
+
+
+%####################################################
+
 
 %O valor dos contratos de um adjudicante
 valorAdjudicante(ID,R) :-  historicoAdjudicanteId(ID,L), valores(L,R).
-
 
 
 %O valor dos contratos de uma adjudicataria
