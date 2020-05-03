@@ -32,6 +32,24 @@
                              comprimento(L,N),
                              N == 1).
 
+%Não pode existir mais que um adjudicante para com o mesmo nif
++adjudicante(ID,_,NI,_) :: (solucoes(X,(adjudicante(X,_,NI,_)),L),
+                           comprimento(L,N),
+                           N == 1).
+
+%Não pode existir mais que um adjudicaria para com o mesmo nif
++adjudicataria(ID,_,NI,_) :: (solucoes(X,(adjudicataria(X,_,NI,_)),L),
+                             comprimento(L,N),
+                             N == 1).
+
+%Nif e id válidos
++adjudicante(ID,_,NIF,_) :: (integer(ID), integer(NIF)).
+
++adjudicataria(ID,_,NIF,_) :: (integer(ID), integer(NIF)).
+
++contrato(ID,_,_,_,_,_,_,_,_,D,M,A) :- (integer(ID), D<31, M<12).
+
+
 %Um contrato tem de ter dois ids válidos
 +contrato(_,ADE,ADA,_,_,_,_,_,_,_,_,_) :: (solucoes(X,(adjudicataria(ADE,_,X,_)),L),
                                     comprimento(L,N),
@@ -54,18 +72,23 @@ procValido('Consulta Previa').
 procValido('Concurso Publico').
 
 
-execao( contrato(_,_,CONT,'Ajuste direto',_,V,P,_,_,_,_) ) :-
-        P <= 366, V <= 5000,
-        (CONT='Contrato de aquisição'; CONT='Locação de bens móveis'; CONT='Aquisição de serviços' ).
+
+% Condições ajuste direto 
+
+ajusteDireto('Contrato de aquisicao').
+ajusteDireto('Locacao de bens moveis').
+ajusteDireto('Aquisicao de servicos').
+
+valInf(X) :- 5000 >= X.
+
++contrato(_,_,_,AjDir,'Ajuste Direto',_,Valor,Prazo,_,_,_,_) :: ( solucoes(ajusteDireto(AjDir) , contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) , Valor),
+                                        valInf(Valor)).
+
++contrato(_,_,_,AjDir,'Ajuste Direto',_,Valor,Prazo,_,_,_,_) :: ( solucoes(ajusteDireto(AjDir) , contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) , Prazo),
+                                       365>=Prazo).
 
 
-%Regra dos três anos
-execao( contrato(_,ADJ,AD,C,_,_,V,_,_,D,M,A) ) :-
-        solucoes(X,(contrato(_,ADJ,AD,C,_,_,_,_,_,_,_,_), R),
-        sum_contrato(R,S),
-        S >= 75000,
-        calcular_dif(R,date(A,M,D),DIAS),
-        DIAS <= 1080.
+
 
 %Calcula a diferença entre 2 datas em dias
 timediff(DateTime1, DateTime2, Day) :-
@@ -209,6 +232,7 @@ valorTipoContrato(T,V) :- findall(ID,contrato(ID,_,_,_,T,_,_,_,_,_,_,_),L), valo
 
 
 %Dinheiro movimentado num ano
+dinheiroAno(A,R) :- findall(ID, contrato(ID,_,_,_,_,_,_,_,_,_,_,A),L), valores(L,R).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
