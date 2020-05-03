@@ -51,12 +51,14 @@
 
 
 %Um contrato tem de ter dois ids válidos
-+contrato(_,ADE,ADA,_,_,_,_,_,_,_,_,_) :: (solucoes(X,(adjudicataria(_,ADE,X,_)),L),
-                                    comprimento(L,N),
-                                    N == 1,
-                                    solucoes(X,(adjudicataria(_,ADA,X,_)),S),
-                                    comprimento(S,N),
-                                    N == 1).
++contrato(_,ADE,ADA,_,_,_,_,_,_,_,_,_) :: (solucoes(ADE,(adjudicante(_,_,ADE,_)),L),
+                                		   comprimento(L,N1),
+                                  		   N1 == 1
+                                 		   ).
+
++contrato(_,ADE,ADA,_,_,_,_,_,_,_,_,_) :: (solucoes(ADA,(adjudicataria(_,_,ADA,_)),L),
+  										   comprimento(L,N2),
+                                  		   N2 == 1).
 
 %Só existe um contrato por id
 +contrato(IdC,_,_,_,_,_,_,_,_,_,_,_):: (solucoes(IdC, contrato(IdC,_,_,_,_,_,_,_,_,_,_,_), R),
@@ -81,14 +83,37 @@ ajusteDireto('Aquisicao de servicos').
 
 valInf(X) :- 5000 >= X.
 
-+contrato(_,_,_,AjDir,'Ajuste Direto',_,Valor,Prazo,_,_,_,_) :: ( solucoes(ajusteDireto(AjDir) , contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) , Valor),
-                                        valInf(Valor)).
++contrato(_,_,_,AjDir,'Ajuste Direto',_,Valor,Prazo,_,_,_,_) :: (ajusteDireto(AjDir), valInf(Valor)).
 
-+contrato(_,_,_,AjDir,'Ajuste Direto',_,Valor,Prazo,_,_,_,_) :: ( solucoes(ajusteDireto(AjDir) , contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) , Prazo),
-                                       365>=Prazo).
++contrato(_,_,_,AjDir,'Ajuste Direto',_,Valor,Prazo,_,_,_,_) :: (ajusteDireto(AjDir), 365>=Prazo).
 
 %Regra dos três anos
 
+soma([], 0).
+soma([H|T], Soma) :-
+   soma(T, Resto),
+   Soma is H + Resto.
+
+
+filterList(M,D,In, Out) :-
+    exclude(confirma_data(ID,M,D), In, Out).
+
+
+confirma_data(ID, M, D) :-
+                contrato(ID,_,_,_,_,_,_,_,_,D1,M1,_),
+               %	(M < M1 ; ( M = M1 -> D <= D1)).
+
++contrato(_,ADJ,AD,C,_,_,_,_,_,D,M,A) ::
+        (A1 is A, A2 is A-1, A3 is A-2,
+        solucoes(V,contrato(_,ADJ,AD,C,_,_,V,_,_,_,_,A1),R1),
+        solucoes(V,contrato(_,ADJ,AD,C,_,_,V,_,_,_,_,A2),R2),
+        solucoes(V,contrato(ID,ADJ,AD,C,_,_,V,_,_,D3,M3,A3),R3),
+        %filterList(M,D,R3,R4),
+        soma(R1,T1),
+        soma(R2,T2),
+        soma(R3,T3),
+        TOTAL is T1 + T2 + T3,
+        TOTAL<75000).
 
 
 %Calcula a diferença entre 2 datas em dias
@@ -107,14 +132,14 @@ sum_contrato([contrato(_,_,_,_,_,_,V,_,_,_,_,_)|T],Sum) :-
 %Invariantes
 
 %Não é possível retirar um adjudicante que celebrou um contrato
--adjudicante(_,_,NIF,_) :: (solucoes(NIF, contrato(_,_,_,fisc,_,_,_,_,_,_,_,_,_,_) ,S ),
+-adjudicante(_,_,NIF,_) :: (solucoes(NIF, contrato(_,NIF,_,_,_,_,_,_,_,_,_,_,_,_) ,S ),
                             comprimento(S,N),
-                            N>=1).
+                            N==0).
 
 %Não é possível retirar um adjudicataria que celebrou um contrato
--adjudicataria(_,_,NIF,_) :: (solucoes(NIF, contrato(_,_,_,_,fisc,_,_,_,_,_,_,_,_,_) ,S ),
+-adjudicataria(_,_,NIF,_) :: (solucoes(NIF, contrato(_,_,NIF,_,_,_,_,_,_,_,_,_,_,_) ,S ),
                            	  comprimento(S,N),
-                              N>=1).
+                              N==0).
 
 %------------------------------------------------
 %Representar casos de conhecimento imperfeito, pela utilização de valores nulos de todos os tipos estudados
@@ -172,8 +197,6 @@ excecao(contrato(15,210494994,801696969,'Aquisicao de servicos', 'Consulta Previ
 
 excecao(contrato(16,405210436,444444444,'Aquisicao de servicos', 'Consulta Previa', 'Fornecimento de ventiladores', 100000, 2, L, 30, 04, 2020)) :-
                                                                                                         pertence(L, ['Lisboa', 'Braga', 'Porto', 'Madeira']).
-
-
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Desenvolver um sistema de inferência capaz de implementar os mecanismos de raciocínio inerentes a estes sistemas
@@ -275,36 +298,30 @@ pertence( X,[Y|L] ) :-
     pertence( X,L ).
 
 %-------------------------------------------------
-%Falta conhecimento negativo
-
 adjudicante(1,'Município de Alto de Basto',705330336,'Portugal,Braga, Alto de Basto').
 adjudicante(2,'Junta de Freguesia Este S.Pedro',680013539,'Portugal,Braga, Este S.Pedro').
 adjudicante(3,'Hospital De Braga',123456789,'Portugal,Braga, Atras da UM').
 adjudicante(4,'Loja do cidadão',412823999,'Portugal,Braga, Avenida da Liberdade').
 adjudicante(5,'Universidade do minho Braga',134772977,'Portugal,Braga, Gualtar').
-adjudicante(6,'Universidade do minho Espanha',405210436,'Espanha,Guimaraes, Azurem').
+adjudicante(6,'Universidade do minho Guimaraes',405210436,'Portugal,Guimaraes, Azurem').
 adjudicante(7,'PSP Braga',033199321,'Portugal,Braga, Se').
 adjudicante(8,'Gold Center',577550677,'Portugal,Braga,S. Vicente ').
 adjudicante(9,'GNR Sameiro',210494994,'Portugal,Braga, Sameiro').
 adjudicante(10,'Finanças',760200300,'Portugal,Braga, Real').
 
 %-------------------------------------------------
-%Falta conhecimento negativo
-
 adjudicataria(1, 'Associados - Sociedade de Advogados', 702675112, 'Portugal').
 adjudicataria(2, 'AgroLândia', 222222222, 'Pedralva, Braga, Portugal').
-adjudicataria(3, 'Azeite Galo', 969696969, 'Azurém, Guimarães, Espanha').
+adjudicataria(3, 'Azeite Galo', 969696969, 'Azurém, Guimarães, Portugal').
 adjudicataria(4, 'Padaria de Aljubarrota', 760400500, 'Aljubarrota, Alcobaça, Portugal').
 adjudicataria(5, 'ZooMarine', 888888888, 'Guia, Albufeira, Portugal').
 adjudicataria(6, 'Lavandarias Coentrão', 987654321, 'Caxinas, Vila do Conde, Portugal').
 adjudicataria(7, 'TUB', 555555555, 'Maximinos, Braga, Portugal').
-adjudicataria(8, 'Sex Shop Avé Maria', 444444444, 'São Vitor, Braga, Portugal').
-adjudicataria(9, 'Residencial Cairense', 801696969 , 'Maximinos, Braga, Portugal').
+adjudicataria(8, 'Shop Avé Maria', 444444444, 'São Vitor, Braga, Portugal').
+adjudicataria(9, 'Residencial Braga Shopping', 801696969 , 'Maximinos, Braga, Portugal').
 adjudicataria(10, 'Tasquinha Bracarense', 111111111, 'Gualtar, Braga, Portugal').
 
 %-------------------------------------------------
-%Falta conhecimento negativo
-
 contrato(1,705330336,702675112,'Aquisicao de servicos', 'Consulta Previa', 'Assessoria juridica', 13599, 547, 'Alto de Basto', 11, 02, 2020).
 contrato(2,680013539,222222222,'Aquisicao de servicos', 'Concurso Publico', 'Agricultores', 11111, 1, 'Este S.Pedro', 03, 09, 2001).
 contrato(3,123456789,760400500,'Aquisicao de servicos', 'Concurso Publico', 'Requisicao de Seguranca e Cerco', 7753, 54, 'Atras da UM', 17, 08, 2011).
@@ -312,6 +329,6 @@ contrato(4,412823999,888888888,'Aquisicao de servicos', 'Consulta Previa', 'Empr
 contrato(5,134772977,111111111,'Aquisicao de servicos', 'Concurso Publico', 'Catering', 1000000000, 70000, 'Gualtar', 18, 08, 2019).
 contrato(6,405210436,969696969,'Aquisicao de servicos', 'Consulta Previa', 'Venda de Azeite', 0.67, 123, 'Azurem', 29, 02, 2021).
 contrato(7,033199321,987654321,'Aquisicao de servicos', 'Concurso Publico', 'Lavagem de dinheiro', 4109, 54, 'Se', 21, 08, 2017).
-contrato(8,577550677,555555555,'Aquisicao de servicos', 'Ajuste Direto', 'Transporte de Droga', 99, 100, 'S. Vicente', 01, 01, 2000).
+contrato(8,577550677,555555555,'Aquisicao de servicos', 'Ajuste Direto', 'Transporte de Mercadorias', 99, 100, 'S. Vicente', 01, 01, 2000).
 contrato(9,210494994,444444444,'Aquisicao de servicos', 'Ajuste Direto', 'Fornecimento de Cassetetes', 1399, 5489, 'Sameiro', 12, 06, 2011).
 contrato(10,705330336,801696969,'Aquisicao de servicos', 'Concurso Publico', 'Prestaçao de servicos gerais', 999, 1547, 'Real', 02, 11, 2015).
