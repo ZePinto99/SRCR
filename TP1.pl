@@ -98,21 +98,24 @@ soma([H|T], Soma) :-
 filterList(M,D,In, Out) :-
     exclude(confirma_data(ID,M,D), In, Out).
 
+idValor([],[]).
+idValor([X|Y],[H|T]) :-  idValor(Y,T), contrato(X,_,_,_,_,_,V,_,_,_,_,_), H is V.
 
-confirma_data(ID, M, D) :-
-                contrato(ID,_,_,_,_,_,_,_,_,D1,M1,_),
-               %	(M < M1 ; ( M = M1 -> D <= D1)).
 
-+contrato(_,ADJ,AD,C,_,_,_,_,_,D,M,A) ::
+confirma_data(ID, M, D) :- contrato(ID,_,_,_,_,_,_,_,_,D1,M1,_), M < M1. 
+confirma_data(ID, M, D) :- contrato(ID,_,_,_,_,_,_,_,_,D1,M1,_), M = M1 , D1 >= D.
+
++contrato(_,ADJ,AD,C,_,_,VI,_,_,D,M,A) ::
         (A1 is A, A2 is A-1, A3 is A-2,
-        solucoes(V,contrato(_,ADJ,AD,C,_,_,V,_,_,_,_,A1),R1),
+        solucoes(V,contrato(_,ADJ,AD,C,_,_,V,_,_,_,_,A),R1),
         solucoes(V,contrato(_,ADJ,AD,C,_,_,V,_,_,_,_,A2),R2),
-        solucoes(V,contrato(ID,ADJ,AD,C,_,_,V,_,_,D3,M3,A3),R3),
+        solucoes(V,contrato(ID,ADJ,AD,C,_,_,V,_,_,_,_,A3),R3),
         %filterList(M,D,R3,R4),
+        %idValor(R4,R5),
         soma(R1,T1),
-        soma(R2,T2),
+       	soma(R2,T2),
         soma(R3,T3),
-        TOTAL is T1 + T2 + T3,
+        TOTAL is T1 + T2 + T3 - VI,
         TOTAL<75000).
 
 
