@@ -47,14 +47,14 @@
 
 +adjudicataria(ID,_,NIF,_) :: (integer(ID), integer(NIF)).
 
-+contrato(ID,_,_,_,_,_,_,_,_,D,M,A) :- (integer(ID), D<31, M<12).
++contrato(ID,_,_,_,_,_,_,_,_,D,M,A) :- (integer(ID), D<31, M<13).
 
 
 %Um contrato tem de ter dois ids válidos
-+contrato(_,ADE,ADA,_,_,_,_,_,_,_,_,_) :: (solucoes(X,(adjudicataria(ADE,_,X,_)),L),
++contrato(_,ADE,ADA,_,_,_,_,_,_,_,_,_) :: (solucoes(X,(adjudicataria(_,ADE,X,_)),L),
                                     comprimento(L,N),
                                     N == 1,
-                                    solucoes(X,(adjudicataria(ADA,_,X,_)),S),
+                                    solucoes(X,(adjudicataria(_,ADA,X,_)),S),
                                     comprimento(S,N),
                                     N == 1).
 
@@ -87,6 +87,7 @@ valInf(X) :- 5000 >= X.
 +contrato(_,_,_,AjDir,'Ajuste Direto',_,Valor,Prazo,_,_,_,_) :: ( solucoes(ajusteDireto(AjDir) , contrato(_,_,_,AjDir,_,_,Valor,Prazo,_,_) , Prazo),
                                        365>=Prazo).
 
+%Regra dos três anos
 
 
 
@@ -105,18 +106,6 @@ sum_contrato([contrato(_,_,_,_,_,_,V,_,_,_,_,_)|T],Sum) :-
 %--------------------------------- - - - - - - - - - -  -
 %Invariantes
 
--adjudicante(N,A,V,L) :-
-    nao(adjudicante(N,A,V,L)),
-    nao(excecao(adjudicante(N,A,V,L))).
-
--adjudicataria(N,A,V,L) :-
-    nao(adjudicataria(N,A,V,L)),
-    nao(excecao(adjudicataria(N,A,V,L))).
-
--contrato(_,_,_,_,_,_,_,_,_,_,_,_) :-
-    nao(contrato(_,_,_,_,_,_,_,_,_,_,_,_)),
-    nao(excecao(contrato(_,_,_,_,_,_,_,_,_,_,_,_))).
-
 %Não é possível retirar um adjudicante que celebrou um contrato
 -adjudicante(_,_,NIF,_) :: (solucoes(NIF, contrato(_,_,_,fisc,_,_,_,_,_,_,_,_,_,_) ,S ),
                             comprimento(S,N),
@@ -128,8 +117,19 @@ sum_contrato([contrato(_,_,_,_,_,_,V,_,_,_,_,_)|T],Sum) :-
                               N>=1).
 
 %------------------------------------------------
-
 %Representar casos de conhecimento imperfeito, pela utilização de valores nulos de todos os tipos estudados
+
+-adjudicante(N,A,V,L) :-
+    nao(adjudicante(N,A,V,L)),
+    nao(excecao(adjudicante(N,A,V,L))).
+
+-adjudicataria(N,A,V,L) :-
+    nao(adjudicataria(N,A,V,L)),
+    nao(excecao(adjudicataria(N,A,V,L))).
+
+-contrato(_,_,_,_,_,_,_,_,_,_,_,_) :-
+    nao(contrato(_,_,_,_,_,_,_,_,_,_,_,_)),
+    nao(excecao(contrato(_,_,_,_,_,_,_,_,_,_,_,_))).
 
 %nome d0 adjudicante desconhecido
 adjudicante(999,x007,14141414,'Portugal,Vila Real, Tras-os-Montes e Alto Douro').
@@ -189,26 +189,6 @@ historicoAdjudicanteId(ID,L) :- adjudicante(ID,_,NIF,_), historicoAdjudicante(NI
 
 %Contratos realizados por o id de uma adjudicataria
 historicoAdjudicatariaId(ID,L) :- adjudicataria(ID,_,NIF,_), historicoAdjudicataria(NIF,L).
-
-
-
-%%#########   Não está a dar #########################
-
-%O adjudicante com mais contratos
-topAdjudicante(ID) :- findall(I,adjudicante(I,_,_,_),L), topAjAux(ID,L).
-
-topAjAux(ID,[]).
-topAjAux(ID,[X|T]) :- historicoAdjudicanteId(ID,L1), length(L1,R1), historicoAdjudicanteId(X,L2), length(L2,R2), R1 >= R2.
-
-%A adjudicataria com mais contratos
-topAdjudicataria(ID) :- findall(I,adjudicante(I,_,_,_),L), topAcAux(ID,L).
-
-topAcAux(ID,[]).
-topAcjAux(ID,[X|T]) :- historicoAdjudicatariaId(ID,L1), length(L1,R1), historicoAdjudicatariaId(X,L2), length(L2,R2), R1 >= R2.
-
-
-%####################################################
-
 
 %O valor dos contratos de um adjudicante
 valorAdjudicante(ID,R) :-  historicoAdjudicanteId(ID,L), valores(L,R).
